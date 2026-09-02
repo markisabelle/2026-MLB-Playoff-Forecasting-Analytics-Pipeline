@@ -1,0 +1,38 @@
+                 MLB Stats API
+                       │
+                       ▼
+                Azure Databricks
+                       │
+                       ▼
+                 ┌───────────┐
+                 │  BRONZE   │
+                 │ Raw JSON  │
+                 └─────┬─────┘
+                       │
+                       ▼
+                 ┌───────────┐
+                 │  SILVER   │
+                 │ Cleaned & │
+                 │ Structured│
+                 └─────┬─────┘
+                       │
+                       ▼
+                 ┌───────────┐
+                 │   GOLD    │
+                 │ Analytical│
+                 │   Tables  │
+                 └─────┬─────┘
+                       │
+             ┌─────────┴─────────┐
+             ▼                   ▼
+       SQL Forecasting      Python Simulation
+             │                   │
+             └─────────┬─────────┘
+                       ▼
+                10,000 Seasons
+                       │
+                       ▼
+                   Power BI
+                       │
+                       ▼
+           Playoff & Win Forecasts
