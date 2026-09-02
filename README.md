@@ -106,27 +106,83 @@ During model validation, discrepancies surfaced between actual schedule totals a
 The forecasting engine simulates every remaining game on the schedule **10,000 times** based on team strength, run differentials (Pythagorean expectations), schedule strength, and historical win probabilities.
 
 ```python
+import random
+import copy
+
 num_simulations = 10000
+
+# Final standings
 all_simulations = []
 
+# Every individual game outcome
+simulation_game_results = []
+
+
 for sim in range(num_simulations):
+
+    # Start from original standings
     sim_records = copy.deepcopy(starting_records)
+
+    # Simulate every remaining game
     for game_number, game in enumerate(games, start=1):
+
+        away = game["away_team"]
+        home = game["home_team"]
+
         away_prob = game["away_probability"]
-        
-        # Simulate individual game outcome
+
+        # Generate random outcome between 0.0 and 1.0
         if random.random() < away_prob:
-            winner, loser = game["away_team"], game["home_team"]
+
+            winner = away
+            loser = home
+
         else:
-            winner, loser = game["home_team"], game["away_team"]
-            
+
+            winner = home
+            loser = away
+
+
+        # Update records
         sim_records[winner]["wins"] += 1
         sim_records[loser]["losses"] += 1
 
-    for team, record in sim_records.items():
-        all_simulations.append({
+
+        # SAVE THE ACTUAL GAME RESULT
+        simulation_game_results.append({
+
             "simulation": sim + 1,
+
+            "game_number": game_number,
+
+            "game_pk": game["game_pk"],
+
+            "game_date": game["game_date"],
+
+            "away_team": away,
+
+            "home_team": home,
+
+            "winner": winner,
+
+            "loser": loser,
+
+            "away_probability": away_prob
+
+        })
+
+
+    # Save final standings
+    for team, record in sim_records.items():
+
+        all_simulations.append({
+
+            "simulation": sim + 1,
+
             "team": team,
+
             "wins": record["wins"],
+
             "losses": record["losses"]
+
         })
